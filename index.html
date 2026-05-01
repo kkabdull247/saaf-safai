@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAAFSAFAI | Professional Detailing Unit</title>
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --yellow: #FFC107;
+            --dark: #0B0E11;
+            --dark-card: #161B22;
+            --text-gray: #8B949E;
+            --white: #EBEDF0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--dark);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(11, 14, 17, 0.98);
+            border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        .logo span { color: var(--yellow); }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.75rem; font-weight: 700; transition: 0.3s; }
+        .nav-links a:hover { color: var(--yellow); }
+
+        .ham-menu { display: none; cursor: pointer; flex-direction: column; gap: 6px; z-index: 1001; }
+        .ham-menu span { display: block; width: 25px; height: 3px; background: var(--yellow); transition: 0.3s; }
+
+        .mobile-nav {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background: var(--dark); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 2.5rem;
+            z-index: 999; transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .mobile-nav.active { right: 0; }
+        .mobile-nav a { font-family: 'Syncopate'; font-size: 1.2rem; color: var(--white); text-decoration: none; }
+
+        /* --- UPDATED HERO STYLES --- */
+.hero {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    position: relative;
+    background: var(--dark);
+    overflow: hidden;
+}
+
+/* Gradient overlay to make text pop against any background image */
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(90deg, var(--dark) 30%, transparent 70%);
+    z-index: 1;
+}
+
+.hero-text {
+    padding: 0 10%;
+    z-index: 2;
+    position: relative;
+}
+
+/* Status Badge */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.65rem;
+    font-family: 'Syncopate';
+    color: var(--yellow);
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+}
+
+.pulse {
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--yellow);
+    animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+}
+
+.hero-description {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 550px;
+}
+
+.hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 20px;
+    border-left: 1px solid #333;
+    padding-left: 20px;
+}
+
+.hero-stats strong {
+    display: block;
+    color: var(--white);
+    font-family: 'Syncopate';
+    font-size: 1.2rem;
+}
+
+.hero-stats span {
+    color: var(--text-gray);
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+}
+
+.hero-img {
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069&auto=format&fit=crop') center/cover no-repeat;
+    clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+    position: relative;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 1024px) {
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .hero-overlay {
+        background: rgba(11, 14, 17, 0.8);
+    }
+    .hero-text { padding: 0 5%; }
+    .hero-description { margin: 0 auto 2.5rem; }
+    .hero-cta-group {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .hero-stats { border-left: none; padding-left: 0; }
+    .hero-img {
+        position: absolute;
+        top: 0; left: 0; width: 100%;
+        z-index: 0;
+        clip-path: none;
+    }
+}
+        .btn {
+            display: inline-block; padding: 1.2rem 2.8rem;
+            background: var(--yellow); color: var(--dark);
+            text-decoration: none; font-weight: 800; font-size: 0.8rem;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn:hover { transform: skewX(-5deg) scale(1.05); box-shadow: 0 0 20px rgba(255,193,7,0.3); }
+
+        /* --- SECTIONS --- */
+        section { padding: 80px 8%; max-width: 1400px; margin: 0 auto; }
+        .section-title { margin-bottom: 4rem; }
+        .section-title h2 { font-size: clamp(1.5rem, 4vw, 2.2rem); border-left: 6px solid var(--yellow); padding-left: 20px; }
+        .section-title h2 span { color: var(--yellow); }
+        .gsap-reveal { opacity: 0; transform: translateY(30px); }
+/* --- OUR STORY STYLES --- */
+.story-section {
+    padding: 120px 8%;
+    background-color: var(--dark);
+}
+
+.story-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+}
+
+.story-visual {
+    position: relative;
+    height: 600px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    overflow: hidden;
+}
+
+.story-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(120%);
+    transition: 0.5s ease;
+}
+
+.story-visual:hover img {
+    filter: grayscale(0%) contrast(100%);
+    transform: scale(1.05);
+}
+
+.visual-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(45deg, var(--dark) 0%, transparent 100%);
+    z-index: 1;
+}
+
+.est-badge {
+    position: absolute;
+    top: 20px;
+    left: -10px;
+    background: var(--yellow);
+    color: var(--dark);
+    padding: 10px 30px;
+    font-family: 'Syncopate';
+    font-weight: 700;
+    font-size: 0.8rem;
+    z-index: 2;
+    transform: rotate(-2deg);
+}
+
+.story-lead {
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+.story-body p {
+    color: var(--text-gray);
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.brand-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #222;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-num {
+    font-family: 'Syncopate';
+    font-size: 1.8rem;
+    color: var(--yellow);
+}
+
+.stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    color: var(--text-gray);
+    margin-top: 5px;
+}
+
+/* Responsive Story */
+@media (max-width: 1024px) {
+    .story-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .story-visual {
+        height: 400px;
+        order: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-stats {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .story-lead {
+        font-size: 1.1rem;
+    }
+}
+        /* --- PROCESS --- */
+        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .process-step { position: relative; padding: 2rem; background: var(--dark-card); border-radius: 4px; }
+        .step-num { font-family: 'Syncopate'; color: var(--yellow); font-size: 2.5rem; opacity: 0.2; position: absolute; top: 10px; right: 20px; }
+
+        /* --- PRICING --- */
+        .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .price-card { background: var(--dark-card); padding: 3rem 2rem; text-align: center; border-radius: 4px; border: 1px solid #222; transition: 0.3s; }
+        .price-card.featured { border: 2px solid var(--yellow); transform: scale(1.05); }
+        .price-val { font-family: 'Syncopate'; font-size: 3rem; color: var(--yellow); margin: 1.5rem 0; }
+        .price-card ul { list-style: none; color: var(--text-gray); font-size: 0.9rem; margin-bottom: 2rem; }
+        .price-card li { margin-bottom: 0.8rem; }
+
+      /* --- PORTFOLIO & MODAL STYLES --- */
+
+.portfolio-section { padding: 80px 5%; background: #050709; }
+
+/* Bento Grid Logic */
+.portfolio-bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 280px);
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.port-item {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #222;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+.port-item.large { grid-column: span 2; grid-row: span 2; }
+.port-item.wide { grid-column: span 2; }
+
+.port-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.port-item:hover .port-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,1), transparent); }
+.port-item:hover { border-color: var(--yellow); transform: scale(0.99); }
+
+.op-meta { font-family: 'Syncopate'; font-size: 0.65rem; color: var(--yellow); letter-spacing: 2px; margin-bottom: 8px; }
+.port-item h4 { font-family: 'Syncopate'; font-size: 1.1rem; color: var(--white); }
+.port-item p { font-size: 0.75rem; color: var(--text-gray); margin: 5px 0 15px; }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+}
+
+.modal-content {
+    background: #0b0e11;
+    max-width: 1000px;
+    margin: 2% auto;
+    border: 1px solid #333;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px; top: 10px;
+    font-size: 2rem; color: var(--yellow);
+    cursor: pointer; z-index: 5;
+}
+
+.modal-body { display: grid; grid-template-columns: 1fr 400px; }
+
+.comparison-grid { display: grid; grid-template-rows: 1fr 1fr; background: #000; }
+.comp-box { position: relative; height: 300px; overflow: hidden; border-bottom: 1px solid #111; }
+.comp-box img { width: 100%; height: 100%; object-fit: cover; }
+.comp-box .label {
+    position: absolute; top: 15px; left: 15px;
+    padding: 5px 12px; font-size: 0.6rem; font-family: 'Syncopate';
+    background: rgba(255,0,0,0.8); color: white;
+}
+.comp-box .label.yellow { background: var(--yellow); color: #000; }
+
+.modal-text { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+.modal-text h3 { font-family: 'Syncopate'; font-size: 1.5rem; margin-bottom: 15px; }
+.modal-text p { color: var(--text-gray); font-size: 0.9rem; line-height: 1.6; }
+
+.m-stats { display: flex; gap: 20px; margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; }
+.m-stat { font-family: 'Syncopate'; font-size: 0.75rem; color: var(--white); display: flex; align-items: center; gap: 8px; }
+.m-stat i { color: var(--yellow); }
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1024px) {
+    .portfolio-bento { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+    .port-item { height: 300px; }
+    .modal-body { grid-template-columns: 1fr; }
+    .comp-box { height: 250px; }
+}
+
+@media (max-width: 600px) {
+    .portfolio-bento { grid-template-columns: 1fr; }
+    .port-item.large, .port-item.wide { grid-column: span 1; }
+    .modal-text { padding: 25px; }
+}
+
+@media (max-width: 320px) {
+    .modal-text h3 { font-size: 1.1rem; }
+    .m-stats { flex-direction: column; gap: 10px; }
+}
+
+        /* --- VIDEO REVIEWS STYLES --- */
+.reviews-section {
+    background-color: #0d1117;
+    overflow: hidden;
+}
+
+.reviews-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 30px;
+    cursor: grab;
+    scrollbar-width: none; /* Firefox */
+}
+
+.reviews-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.reviews-container {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    padding: 10px;
+}
+
+.review-card {
+    width: 350px;
+    background: var(--dark-card);
+    border-radius: 8px;
+    border: 1px solid #222;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    border-color: var(--yellow);
+    transform: translateY(-5px);
+}
+
+.video-container {
+    position: relative;
+    height: 450px;
+    background: #000;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.review-card:hover video {
+    opacity: 1;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--yellow);
+    font-size: 2.5rem;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.review-content {
+    padding: 1.5rem;
+}
+
+.stars {
+    color: var(--yellow);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.review-content p {
+    color: var(--white);
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.reviewer-info {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #222;
+    padding-top: 1rem;
+}
+
+.reviewer-info .name {
+    font-family: 'Syncopate';
+    font-size: 0.7rem;
+    color: var(--yellow);
+}
+
+.reviewer-info .vehicle {
+    font-size: 0.65rem;
+    color: var(--text-gray);
+    margin-top: 4px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .review-card {
+        width: 280px;
+    }
+    .video-container {
+        height: 350px;
+    }
+}
+        /* --- CONTACT --- */
+        .contact-box { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; background: var(--dark-card); padding: 3rem; border-radius: 8px; }
+        input, textarea { width: 100%; padding: 1rem; background: #0b0e11; border: 1px solid #333; color: white; margin-bottom: 1rem; font-family: inherit; }
+
+/* --- UPDATED FOOTER STYLES --- */
+.footer-section {
+    background: #050709;
+    border-top: 1px solid #1a1a1a;
+    padding: 80px 8% 30px;
+    color: var(--white);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-tagline {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+.map-container {
+    border: 1px solid #222;
+    filter: grayscale(1) invert(0.9) contrast(1.2); /* Makes map match the dark theme */
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.map-container:hover {
+    filter: grayscale(0) invert(0) contrast(1);
+}
+
+.footer-title {
+    font-family: 'Syncopate';
+    font-size: 0.8rem;
+    color: var(--yellow);
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--yellow);
+    padding-left: 5px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+    color: var(--text-gray);
+    font-size: 0.85rem;
+}
+
+.contact-item i {
+    color: var(--yellow);
+    width: 20px;
+}
+
+.social-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 2rem;
+}
+
+.social-row a {
+    color: var(--white);
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.social-row a:hover {
+    color: var(--yellow);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #00ff00;
+    border-radius: 50%;
+    margin: 0 5px;
+    box-shadow: 0 0 8px #00ff00;
+}
+
+/* RESPONSIVE FOOTER */
+@media (max-width: 1024px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-section { padding: 60px 5% 30px; }
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    .footer-tagline { margin: 0 auto 1.5rem; }
+    .contact-item { justify-content: center; }
+    .social-row { justify-content: center; }
+}
+
+@media (max-width: 320px) {
+    .footer-title { font-size: 0.7rem; }
+    .footer-links a { font-size: 0.75rem; }
+}
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero-img { display: none; }
+            .price-card.featured { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ham-menu { display: flex; }
+            section { padding: 60px 5%; }
+        }
+
+        @media (max-width: 480px) {
+            .contact-box { padding: 1.5rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SAAF<span>SAFAI</span></div>
+        <ul class="nav-links">
+            <li><a href="#process">PROCESS</a></li>
+            <li><a href="#pricing">PRICING</a></li>
+            <li><a href="#portfolio">PORTFOLIO</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+        </ul>
+        <div class="ham-menu" id="ham-toggle">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobile-menu">
+        <a href="#process" class="menu-link">PROCESS</a>
+        <a href="#pricing" class="menu-link">PRICING</a>
+        <a href="#portfolio" class="menu-link">PORTFOLIO</a>
+        <a href="#contact" class="menu-link">CONTACT</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+        <div class="hero-badge gsap-reveal">
+            <span class="pulse"></span> ONLINE & MOBILE DEPLOYED
+        </div>
+        <h1 id="hero-title">ENGINEERED <span>FOR GRIT.</span></h1>
+        <p class="hero-description">
+            Pakistan's elite mobile detailing unit specializing in <strong>paint correction</strong> and <strong>ceramic defense</strong>. We don't just wash; we restore the machine.
+        </p>
+        <div class="hero-cta-group">
+            <a href="#contact" class="btn" id="hero-btn">INITIALIZE BOOKING</a>
+            <div class="hero-stats">
+                <div><strong>500+</strong> <span>PROJECTS</span></div>
+                <div><strong>5.0</strong> <span>RATING</span></div>
+            </div>
+        </div>
+    </div>
+    <!-- This div will now contain a more focused, high-quality image -->
+    <div class="hero-img">
+        <div class="glitch-overlay"></div>
+    </div>
+</section>
+<!-- Our Story Section -->
+<section id="story" class="story-section">
+    <div class="story-container">
+        <!-- Story Visual -->
+        <div class="story-visual gsap-reveal">
+            <div class="visual-overlay"></div>
+            <div class="est-badge">EST. 2024</div>
+            <img src="https://images.unsplash.com/photo-1605515298946-d062f2e9da53?q=80&w=1000&auto=format&fit=crop" alt="The Workshop">
+        </div>
+
+        <!-- Story Content -->
+        <div class="story-content">
+            <div class="section-title">
+                <h2>OUR <span>STORY</span></h2>
+            </div>
+            <p class="story-lead gsap-reveal">
+                SAAFSAFAI wasn't born in a boardroom. It was born in a garage under the flicker of a neon light, fueled by a singular obsession: <strong>absolute perfection.</strong>
+            </p>
+            <div class="story-body gsap-reveal">
+                <p>
+                    We realized that for most, a "car wash" was a chore. For us, it was a ritual. We saw the grit, the swirl marks, and the neglected paint of the city as a challenge. We spent years testing chemical compositions and steam pressures until we engineered a protocol that doesn't just clean—it restores.
+                </p>
+                <p>
+                    Today, SAAFSAFAI operates as an elite mobile unit. We don’t believe in "good enough." We believe in the roar of a clean engine and the mirror-like depth of a ceramic finish. We bring the high-octane standards of the track to your driveway.
+                </p>
+            </div>
+            
+            <div class="brand-stats gsap-reveal">
+                <div class="stat-item">
+                    <span class="stat-num">500+</span>
+                    <span class="stat-label">VEHICLES PURGED</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">24/7</span>
+                    <span class="stat-label">MOBILE OPS</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">SYNTHETIC TECH</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Process Section -->
+    <section id="process">
+        <div class="section-title"><h2>OUR <span>PROTOCOL</span></h2></div>
+        <div class="process-grid">
+            <div class="process-step gsap-reveal">
+                <div class="step-num">01</div>
+                <h3>STRIP</h3>
+                <p style="color: var(--text-gray)">Complete chemical decontamination to remove iron particles and old wax layers.</p>
+            </div>
+            <div class="process-step gsap-reveal">
+                <div class="step-num">02</div>
+                <h3>CORRECT</h3>
+                <p style="color: var(--text-gray)">Multi-stage machine buffing to eliminate swirls, scratches, and oxidation.</p>
+            </div>
+            <div class="process-step gsap-reveal">
+                <div class="step-num">03</div>
+                <h3>PROTECT</h3>
+                <p style="color: var(--text-gray)">Applying aerospace-grade ceramic coatings or high-gloss polymer sealants.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="section-title"><h2>SERVICE <span>TIERS</span></h2></div>
+        <div class="price-grid">
+            <div class="price-card gsap-reveal">
+                <h3>THE SCOUT</h3>
+                <div class="price-val">$45</div>
+                <ul>
+                    <li>Exterior Foam Bath</li>
+                    <li>Wheel & Tire Detail</li>
+                    <li>Interior Vacuum</li>
+                </ul>
+                <a href="#contact" class="btn">SELECT</a>
+            </div>
+            <div class="price-card featured gsap-reveal">
+                <h3 style="color: var(--yellow)">THE OPERATOR</h3>
+                <div class="price-val">$125</div>
+                <ul>
+                    <li>Everything in Scout</li>
+                    <li>Clay Bar Treatment</li>
+                    <li>Interior Steam Clean</li>
+                    <li>Engine Bay Detail</li>
+                </ul>
+                <a href="#contact" class="btn">SELECT</a>
+            </div>
+            <div class="price-card gsap-reveal">
+                <h3>SHOWROOM</h3>
+                <div class="price-val">$250</div>
+                <ul>
+                    <li>Full Paint Correction</li>
+                    <li>Ceramic Lite Coating</li>
+                    <li>Ozone Odor Removal</li>
+                </ul>
+                <a href="#contact" class="btn">SELECT</a>
+            </div>
+        </div>
+    </section>
+
+<!-- Portfolio Section -->
+<section id="portfolio" class="portfolio-section">
+    <div class="section-title">
+        <div class="subtitle">PROJECT ARCHIVE</div>
+        <h2>RECENT <span>OPS</span></h2>
+    </div>
+
+    <div class="portfolio-bento">
+    <!-- Item 01: Featured -->
+    <div class="port-item large gsap-reveal" 
+         style="background-image: url('https://images.pexels.com/photos/3354648/pexels-photo-3354648.jpeg?auto=compress&cs=tinysrgb&w=1200')"
+         onclick="openMission('9H CERAMIC ARMOUR', 'Full multi-stage correction with 5-year aerospace coating.', '14 HRS', '3 LAYERS', 'https://images.pexels.com/photos/3354648/pexels-photo-3354648.jpeg?auto=compress&cs=tinysrgb&w=1200', 'https://images.pexels.com/photos/372810/pexels-photo-372810.jpeg?auto=compress&cs=tinysrgb&w=1200')">
+        <div class="port-badge">FEATURED MISSION</div>
+        <div class="port-overlay">
+            <div class="op-meta">LOC: LAHORE | UNIT: 01</div>
+            <h4>9H CERAMIC ARMOUR</h4>
+            <p>VIEW RECON REPORT</p>
+            <div class="op-specs">
+                <span><i class="fas fa-stopwatch"></i> 14 HRS</span>
+                <span><i class="fas fa-layer-group"></i> 3 LAYERS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item 02 -->
+    <div class="port-item gsap-reveal" 
+         style="background-image: url('https://images.pexels.com/photos/5233254/pexels-photo-5233254.jpeg?auto=compress&cs=tinysrgb&w=800')"
+         onclick="openMission('STERILE INTERIOR', 'Deep steam extraction and chemical-free sanitization.', '4 HRS', 'N/A', 'https://images.pexels.com/photos/5233254/pexels-photo-5233254.jpeg?auto=compress&cs=tinysrgb&w=800', 'https://images.pexels.com/photos/4489749/pexels-photo-4489749.jpeg?auto=compress&cs=tinysrgb&w=800')">
+        <div class="port-overlay">
+            <div class="op-meta">INT. RECON</div>
+            <h4>STERILE INTERIOR</h4>
+            <p>VIEW DETAILS</p>
+        </div>
+    </div>
+
+    <!-- Item 03 -->
+    <div class="port-item gsap-reveal" 
+         style="background-image: url('https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress&cs=tinysrgb&w=800')"
+         onclick="openMission('ENGINE PURGE', 'Dry-ice blasting and high-heat dressing.', '3 HRS', 'COBALT', 'https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress&cs=tinysrgb&w=800', 'https://images.pexels.com/photos/279949/pexels-photo-279949.jpeg?auto=compress&cs=tinysrgb&w=800')">
+        <div class="port-overlay">
+            <div class="op-meta">CORE DECONTAM</div>
+            <h4>ENGINE BAY PURGE</h4>
+            <p>VIEW DETAILS</p>
+        </div>
+    </div>
+
+    <!-- Item 04 -->
+    <div class="port-item wide gsap-reveal" 
+         style="background-image: url('https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg?auto=compress&cs=tinysrgb&w=1000')"
+         onclick="openMission('STEALTH PPF', 'Self-healing matte protection film installation.', '48 HRS', 'XPEL', 'https://images.pexels.com/photos/3972755/pexels-photo-3972755.jpeg?auto=compress&cs=tinysrgb&w=1000', 'https://images.pexels.com/photos/3972752/pexels-photo-3972752.jpeg?auto=compress&cs=tinysrgb&w=1000')">
+        <div class="port-overlay">
+            <div class="op-meta">PAINT DEFENSE</div>
+            <h4>STEALTH PPF INSTALL</h4>
+            <p>VIEW DETAILS</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Mission Report Modal -->
+<div id="missionModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-body">
+            <div class="comparison-grid">
+                <div class="comp-box">
+                    <span class="label">BEFORE</span>
+                    <img id="beforeImg" src="" alt="Before">
+                </div>
+                <div class="comp-box">
+                    <span class="label yellow">AFTER</span>
+                    <img id="afterImg" src="" alt="After">
+                </div>
+            </div>
+            <div class="modal-text">
+                <div class="op-meta">MISSION LOG</div>
+                <h3 id="mTitle"></h3>
+                <p id="mDesc"></p>
+                <div class="m-stats">
+                    <div class="m-stat"><i class="fas fa-stopwatch"></i> <span id="mTime"></span></div>
+                    <div class="m-stat"><i class="fas fa-layer-group"></i> <span id="mLayers"></span></div>
+                </div>
+                <a href="#contact" class="btn" style="width: 100%; text-align: center; margin-top: 20px;">ENLIST NOW</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Video Reviews Section -->
+<section id="reviews" class="reviews-section">
+    <div class="section-title">
+        <h2>FIELD <span>REPORTS</span></h2>
+    </div>
+    
+    <div class="reviews-wrapper">
+        <div class="reviews-container">
+            <!-- Review Card 1 -->
+            <div class="review-card gsap-reveal">
+                <div class="video-container">
+                    <video muted loop playsinline poster="https://images.unsplash.com/photo-1507133359944-c68d1d5772bc?auto=format&fit=crop&q=80&w=400">
+                        <source src="your-video-link-1.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="review-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"The ceramic coating depth is insane. You can literally see the clouds reflecting in the paint. Best unit in the city."</p>
+                    <div class="reviewer-info">
+                        <span class="name">OPERATOR: ZAIN A.</span>
+                        <span class="vehicle">PORSCHE TAYCAN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Card 2 -->
+            <div class="review-card gsap-reveal">
+                <div class="video-container">
+                    <video muted loop playsinline poster="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=400">
+                        <source src="your-video-link-2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="review-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"Mobile service was on time and the interior steam clean removed stains I've had for years. Professional execution."</p>
+                    <div class="reviewer-info">
+                        <span class="name">OPERATOR: AHMED K.</span>
+                        <span class="vehicle">LAND CRUISER V8</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Card 3 -->
+            <div class="review-card gsap-reveal">
+                <div class="video-container">
+                    <video muted loop playsinline poster="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=400">
+                        <source src="your-video-link-3.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="review-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"That engine bay detail is art. Every bolt, every wire—spotless. SAAFSAFAI is the only team I trust with my machine."</p>
+                    <div class="reviewer-info">
+                        <span class="name">OPERATOR: SARA M.</span>
+                        <span class="vehicle">AUDI RS6</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card gsap-reveal">
+                <div class="video-container">
+                    <video muted loop playsinline poster="https://images.unsplash.com/photo-1507133359944-c68d1d5772bc?auto=format&fit=crop&q=80&w=400">
+                        <source src="your-video-link-1.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="review-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"The ceramic coating depth is insane. You can literally see the clouds reflecting in the paint. Best unit in the city."</p>
+                    <div class="reviewer-info">
+                        <span class="name">OPERATOR: ZAIN A.</span>
+                        <span class="vehicle">PORSCHE TAYCAN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Card 2 -->
+            <div class="review-card gsap-reveal">
+                <div class="video-container">
+                    <video muted loop playsinline poster="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=400">
+                        <source src="your-video-link-2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="review-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"Mobile service was on time and the interior steam clean removed stains I've had for years. Professional execution."</p>
+                    <div class="reviewer-info">
+                        <span class="name">OPERATOR: AHMED K.</span>
+                        <span class="vehicle">LAND CRUISER V8</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Card 3 -->
+            <div class="review-card gsap-reveal">
+                <div class="video-container">
+                    <video muted loop playsinline poster="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=400">
+                        <source src="your-video-link-3.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="review-content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"That engine bay detail is art. Every bolt, every wire—spotless. SAAFSAFAI is the only team I trust with my machine."</p>
+                    <div class="reviewer-info">
+                        <span class="name">OPERATOR: SARA M.</span>
+                        <span class="vehicle">AUDI RS6</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-title"><h2>CONTACT <span>HQ</span></h2></div>
+        <div class="contact-box gsap-reveal">
+            <div>
+                <h3>READY TO UPGRADE?</h3>
+                <p style="color: var(--text-gray); margin-top: 1rem;">Drop your details and vehicle type. Our mobile unit will respond with a quote within 2 hours.</p>
+                <div style="margin-top: 2rem;">
+                    <p><i class="fas fa-phone-alt" style="color: var(--yellow)"></i> +92 300 1234567</p>
+                    <p><i class="fas fa-map-marker-alt" style="color: var(--yellow)"></i> Lahore / Karachi Mobile Units</p>
+                </div>
+            </div>
+            <form>
+                <input type="text" placeholder="NAME">
+                <input type="text" placeholder="VEHICLE MODEL">
+                <textarea rows="4" placeholder="HOW CAN WE HELP?"></textarea>
+                <button type="submit" class="btn" style="width: 100%;">SEND TRANSMISSION</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer-section">
+    <div class="footer-container">
+        <!-- Column 1: Brand & Map -->
+        <div class="footer-col gsap-reveal">
+            <div class="logo" style="font-size: 1.5rem; margin-bottom: 1.5rem;">SAAF<span>SAFAI</span></div>
+            <p class="footer-tagline">Elite mobile detailing unit deploying showroom-grade restoration to your coordinates.</p>
+            <div class="map-container">
+                <!-- Replace the src URL with your actual Google Maps embed link -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108844.22633011326!2d74.23465139726562!3d31.51307130000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919045a28330771%3A0x13d2f9f83652697!2sLahore%2C%20Punjab!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk" 
+                    width="100%" height="150" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col gsap-reveal">
+            <h4 class="footer-title">NAVIGATION</h4>
+            <ul class="footer-links">
+                <li><a href="#story">Our Story</a></li>
+                <li><a href="#process">Protocol</a></li>
+                <li><a href="#pricing">Tiers</a></li>
+                <li><a href="#portfolio">Ops Archive</a></li>
+                <li><a href="#reviews">Field Reports</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3: Contact & Status -->
+        <div class="footer-col gsap-reveal">
+            <h4 class="footer-title">COMM-LINKS</h4>
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <span>+92 300 1234567</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>ops@saafsafai.com</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Lahore / Karachi Deployment</span>
+            </div>
+            
+            <div class="social-row">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 SAAFSAFAI DETAILING CO. | <span class="status-indicator"></span> ALL SYSTEMS OPERATIONAL.</p>
+    </div>
+</footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- MOBILE MENU LOGIC ---
+            const ham = document.getElementById('ham-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLinks = document.querySelectorAll('.menu-link');
+
+            const toggleMenu = () => {
+                mobileMenu.classList.toggle('active');
+                const spans = ham.querySelectorAll('span');
+                if(mobileMenu.classList.contains('active')) {
+                    spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                    spans[1].style.opacity = '0';
+                    spans[2].style.transform = 'rotate(-45deg) translate(6px, -7px)';
+                } else {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            };
+
+            ham.addEventListener('click', toggleMenu);
+
+            // CLOSE MENU WHEN LINK IS CLICKED
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(mobileMenu.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            // --- GSAP ANIMATIONS ---
+            gsap.to("#hero-title", { opacity: 1, y: 0, duration: 1, ease: "power4.out" });
+            // gsap.from("#hero-btn", { opacity: 0, x: -30, duration: 1, delay: 0.5 });
+
+            gsap.utils.toArray(".gsap-reveal").forEach((elem) => {
+                gsap.to(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 90%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+
+        // Add this inside your script tag to target the story stats specifically
+gsap.from(".stat-item", {
+    scrollTrigger: {
+        trigger: ".brand-stats",
+        start: "top 90%",
+    },
+    y: 30,
+    opacity: 0,
+    stagger: 0.2,
+    duration: 1,
+    ease: "power2.out"
+});
+
+// Video Review Hover Logic
+const reviewCards = document.querySelectorAll('.review-card');
+
+reviewCards.forEach(card => {
+    const video = card.querySelector('video');
+    
+    card.addEventListener('mouseenter', () => {
+        video.play();
+        card.querySelector('.video-overlay').style.opacity = '0';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        video.pause();
+        card.querySelector('.video-overlay').style.opacity = '0.8';
+    });
+});
+
+const modal = document.getElementById("missionModal");
+const closeBtn = document.querySelector(".close-modal");
+
+function openMission(title, desc, time, layers, after, before) {
+    document.getElementById("mTitle").innerText = title;
+    document.getElementById("mDesc").innerText = desc;
+    document.getElementById("mTime").innerText = time;
+    document.getElementById("mLayers").innerText = layers;
+    document.getElementById("afterImg").src = after;
+    document.getElementById("beforeImg").src = before;
+
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden"; // Lock scroll
+}
+
+closeBtn.onclick = () => {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+};
+
+window.onclick = (event) => {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+};
+
+    </script>
+</body>
+</html>
